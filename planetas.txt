@@ -1,0 +1,3 @@
+Grande;Terra;Água;1
+Gigante;Saturno;Gasoso;274
+Minúsculo;Plutão;Rochoso;0
