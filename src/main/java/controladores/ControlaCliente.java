@@ -15,30 +15,49 @@ import java.util.ArrayList;
  */
 public class ControlaCliente {
 
-    private ClienteDAO pDAO = new ClienteDAO();
+    private ClienteDAO cDAO = new ClienteDAO();
 
     public boolean salvar(Cliente c) {
         try {
-            pDAO.salvar(c);
+            cDAO.salvar(c);
             return true;
         } catch (SQLException ex) {
             System.out.println("Erro ao salvar cliente: " + ex.getMessage());
             return false;
         }
     }
+    
+     public boolean editar(Cliente c) {
+        try {
+            cDAO.editar(c);
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Erro ao editar cliente: " + ex.getMessage());
+            return false;
+        }
+    }
 
     public ArrayList<Cliente> recuperarTodos() {
         try {
-            return pDAO.recuperarTodos();
+            return cDAO.recuperarTodos();
         } catch (SQLException ex) {
             System.out.println("Erro ao salvar cliente: " + ex.getMessage());
+            return null;
+        }
+    }
+    
+     public Cliente recuperarUm(int id){
+        try {
+            return cDAO.recuperarUm(id);
+        } catch (SQLException ex) {
+            System.out.println("Erro ao recuperar cliente: " + ex.getMessage());
             return null;
         }
     }
       
     public boolean excluir(int id){
         try {
-            pDAO.excluir(id);
+            cDAO.excluir(id);
             return true;
         } catch (SQLException ex) {
             System.out.println("Erro ao excluir cliente: " + ex.getMessage());

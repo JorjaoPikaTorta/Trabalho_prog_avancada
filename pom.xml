@@ -11,10 +11,17 @@
             <artifactId>postgresql</artifactId>
             <version>42.7.10</version>
         </dependency>
+         <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>3.0.3</version>
+        </dependency>
     </dependencies>
+    
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
         <exec.mainClass>com.mycompany.exemplotelas.ExemploTelas</exec.mainClass>
     </properties>
+    <name>TrabalhoProgAvc</name>
 </project>

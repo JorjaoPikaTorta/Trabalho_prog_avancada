@@ -6,7 +6,7 @@ package com.mycompany.exemplotelas;
 
 import apoio.ConexaoBD;
 import javax.swing.JOptionPane;
-import telas.TelaPrincipal;
+import telas.TelaLogin;
 
 /**
  *
@@ -17,7 +17,7 @@ public class ExemploTelas {
     public static void main(String[] args) {        
         try {
             ConexaoBD.getInstance().getConnection();
-            TelaPrincipal tp = new TelaPrincipal();
+            TelaLogin tp = new TelaLogin();
             tp.setVisible(true);
         } catch (Exception e) {
             System.out.println(e);

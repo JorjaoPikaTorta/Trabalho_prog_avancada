@@ -4,8 +4,12 @@
  */
 package telas;
 
+import apoio.Formatacao;
+import apoio.Mensagem;
+import apoio.PDFManager;
 import controladores.ControlaCliente;
 import entidades.Cliente;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
@@ -17,13 +21,14 @@ import javax.swing.table.AbstractTableModel;
 public class TelaClientes extends javax.swing.JInternalFrame {
 
     ControlaCliente cc = new ControlaCliente();
-
+int codigo = 0;
     /**
      * Creates new form TelaPlanetas
      */
     public TelaClientes() {
         initComponents();
         montaTabela();
+         Formatacao.formatarCpf(txtFormatacaoCpf);
     }
 
     /**
@@ -41,11 +46,11 @@ public class TelaClientes extends javax.swing.JInternalFrame {
         tblClientes = new javax.swing.JTable();
         btnexcluir = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
+        btnPDF = new javax.swing.JButton();
         CadClientes = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtCpf = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtTelefone = new javax.swing.JTextField();
         btnSalvar = new javax.swing.JButton();
@@ -55,6 +60,7 @@ public class TelaClientes extends javax.swing.JInternalFrame {
         txtDatanasc = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtStatus = new javax.swing.JTextField();
+        txtFormatacaoCpf = new javax.swing.JFormattedTextField();
 
         setClosable(true);
 
@@ -77,30 +83,39 @@ public class TelaClientes extends javax.swing.JInternalFrame {
         btnEditar.setText("Editar");
         btnEditar.addActionListener(this::btnEditarActionPerformed);
 
+        btnPDF.setText("Gerar PDF");
+        btnPDF.addActionListener(this::btnPDFActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnexcluir, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnPDF)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnexcluir, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                            .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnexcluir)
-                        .addGap(12, 12, 12)
-                        .addComponent(btnEditar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(316, 316, 316)
+                .addComponent(btnexcluir)
+                .addGap(12, 12, 12)
+                .addComponent(btnEditar)
                 .addContainerGap(17, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnPDF)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         tpconsulta.addTab("Consulta", jPanel1);
@@ -134,7 +149,6 @@ public class TelaClientes extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(txtNome)
                     .addComponent(jLabel2)
-                    .addComponent(txtCpf)
                     .addComponent(jLabel3)
                     .addComponent(txtTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
                     .addComponent(jLabel5)
@@ -142,7 +156,8 @@ public class TelaClientes extends javax.swing.JInternalFrame {
                     .addComponent(jLabel4)
                     .addComponent(txtDatanasc)
                     .addComponent(jLabel6)
-                    .addComponent(txtStatus))
+                    .addComponent(txtStatus)
+                    .addComponent(txtFormatacaoCpf))
                 .addGap(48, 334, Short.MAX_VALUE))
         );
         CadClientesLayout.setVerticalGroup(
@@ -155,7 +170,7 @@ public class TelaClientes extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtFormatacaoCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -198,6 +213,101 @@ public class TelaClientes extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+
+        String nome = txtNome.getText();
+        String cpf = txtFormatacaoCpf.getText();
+        String telefone = txtTelefone.getText();
+        String endereco = txtEndereco.getText();
+        String datanasc = txtDatanasc.getText();
+        String status = txtStatus.getText();
+
+        Cliente c = new Cliente();
+        c.setNome(nome);
+        c.setCpf(cpf);
+        c.setTelefone(telefone);
+        c.setEndereco(endereco);
+        c.setDatanasc(datanasc);
+        c.setStatus(status);
+
+        String Cpf = txtFormatacaoCpf.getText();
+        String cpfLimpo = Formatacao.removerFormatacao(cpf);
+
+        boolean retorno = false;
+
+        if (codigo == 0) {
+            retorno = cc.salvar(c);
+        } else {
+            c.setIdcliente(codigo);
+            retorno = cc.editar(c);
+        }
+
+        if (retorno) {
+            if (codigo == 0) {
+                Mensagem.erro("Salvo com sucesso");
+            } else {
+                codigo = 0;
+                JOptionPane.showMessageDialog(null, "Editado com sucesso");
+            }
+
+            txtNome.setText("");
+            txtFormatacaoCpf.setText("");
+            txtTelefone.setText("");
+            txtEndereco.setText("");
+            txtDatanasc.setText("");
+            txtStatus.setText("");
+
+            txtNome.requestFocus();
+            montaTabela();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro, verifique os logs.");
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        String idString = String.valueOf(tblClientes.getValueAt (tblClientes.getSelectedRow(), 6));
+        int id = Integer.parseInt(idString);
+
+        Cliente c = cc.recuperarUm(id);
+        if (c != null) {
+            codigo = c.getIdcliente();
+
+            txtNome.setText(c.getNome());
+            txtFormatacaoCpf.setText(c.getCpf());
+            txtTelefone.setText(c.getTelefone());
+            txtEndereco.setText(c.getEndereco());
+            txtDatanasc.setText(c.getDatanasc());
+            txtStatus.setText(c.getStatus());
+
+            tpconsulta.setSelectedIndex(1);
+        } else {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao editar!");
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnexcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexcluirActionPerformed
+        String idString = String.valueOf(tblClientes.getValueAt(tblClientes.getSelectedRow(), 6));
+        int id = Integer.parseInt(idString);
+
+        boolean retorno = cc.excluir(id);
+        if (retorno) {
+            JOptionPane.showMessageDialog(null, "Registro excluído com sucesso!");
+            montaTabela();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao excluir!");
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btnexcluirActionPerformed
+
+    private void btnPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPDFActionPerformed
+ ArrayList<Cliente> c = cc.recuperarTodos();
+        try {
+            PDFManager.gerar(c, "relatorio.pdf");
+        } catch (IOException ex) {
+            System.getLogger(TelaClientes.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+                // TODO add your handling code here:
+    }//GEN-LAST:event_btnPDFActionPerformed
 
     private void montaTabela() {
         ArrayList<Cliente> c = cc.recuperarTodos();
@@ -267,65 +377,11 @@ public class TelaClientes extends javax.swing.JInternalFrame {
         }
     }
 
-    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-
-        String nome = txtNome.getText();
-        String cpf = txtCpf.getText();
-        String telefone = txtTelefone.getText();
-         String endereco = txtEndereco.getText();
-          String datanasc = txtDatanasc.getText();
-           String status = txtStatus.getText();
-         
-
-        Cliente c = new Cliente();
-        c.setNome(nome);
-        c.setCpf(cpf);
-        c.setTelefone(telefone);
-         c.setEndereco(endereco);
-          c.setDatanasc(datanasc);
-           c.setStatus(status);
-          
-
-        boolean retorno = cc.salvar(c);
-
-        if (retorno) {
-            JOptionPane.showMessageDialog(null, "Salvo com sucesso");
-            txtNome.setText("");
-            txtCpf.setText("");
-            txtTelefone.setText("");
-             txtEndereco.setText("");
-              txtDatanasc.setText("");
-               txtStatus.setText("");
-          
-
-            txtNome.requestFocus();
-            montaTabela();
-        } else {
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro, verifique os logs.");
-        }
-    }//GEN-LAST:event_btnSalvarActionPerformed
-
-    private void btnexcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexcluirActionPerformed
-String idString = String.valueOf(tblClientes.getValueAt(tblClientes.getSelectedRow(), 6));
-        int id = Integer.parseInt(idString);
-
-        boolean retorno = cc.excluir(id);
-        if (retorno) {
-            JOptionPane.showMessageDialog(null, "Registro excluído com sucesso!");
-            montaTabela();
-        } else {
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao excluir!");
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_btnexcluirActionPerformed
-
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-      String isString = String.valueOf(tblClientes.getValueAt (tblClientes.getSelectedRow(), 6));
-    }//GEN-LAST:event_btnEditarActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CadClientes;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnPDF;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnexcluir;
     private javax.swing.JLabel jLabel1;
@@ -338,9 +394,9 @@ String idString = String.valueOf(tblClientes.getValueAt(tblClientes.getSelectedR
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblClientes;
     private javax.swing.JTabbedPane tpconsulta;
-    private javax.swing.JTextField txtCpf;
     private javax.swing.JTextField txtDatanasc;
     private javax.swing.JTextField txtEndereco;
+    private javax.swing.JFormattedTextField txtFormatacaoCpf;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtStatus;
     private javax.swing.JTextField txtTelefone;
