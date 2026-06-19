@@ -6,6 +6,7 @@ package entidades.DAO;
 
 import apoio.ConexaoBD;
 import apoio.FileManager;
+import entidades.Cliente;
 import entidades.Funcionario;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,6 +33,46 @@ public class FuncionarioDAO {
         System.out.println("sql: " + sql);
 
         ConexaoBD.executeUpdate(sql);
+    }
+    
+      public void editar(Funcionario f) throws SQLException {
+        String sql = ""
+                + "UPDATE funcionario SET "
+                + "nomefunc = '" + f.getNomefunc() + "',"
+                + "cpf = '" + f.getCpf() + "',"
+                 + "datanasc = '" + f.getDatanasc() + "',"
+                 + "cargo = '" + f.getCargo() + "' ,"
+                  + "salario = '" + f.getSalario() + "' ,"
+                  + "status = '" + f.getStatus() + "' "
+                + "WHERE idfunc = " + f.getIdfunc();
+
+        System.out.println("sql: " + sql);
+
+        ConexaoBD.executeUpdate(sql);
+    }
+
+      public Funcionario recuperarUm(int id) throws SQLException {
+
+        String sql = ""
+                + "SELECT * FROM funcionario WHERE idfunc = " + id;
+
+        resultadoQ = ConexaoBD.executeQuery(sql);
+
+        if (resultadoQ.next()) {
+            Funcionario f = new Funcionario();
+
+            f.setIdfunc(resultadoQ.getInt("idfunc"));
+            f.setNomefunc(resultadoQ.getString("nomefunc"));
+            f.setCpf(resultadoQ.getString("cpf"));
+             f.setDatanasc(resultadoQ.getString("datanasc"));
+              f.setCargo(resultadoQ.getString("cargo"));
+               f.setSalario(resultadoQ.getString("salario"));
+              f.setStatus(resultadoQ.getString("status"));
+
+            return f;
+        }
+
+        return null;
     }
 
     public ArrayList<Funcionario> recuperarTodos() throws SQLException {

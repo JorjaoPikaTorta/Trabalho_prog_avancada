@@ -1,11 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package telas;
+
+import apoio.Formatacao;
+import apoio.Mensagem;
+import apoio.PDFManager;
 import controladores.ControlaFuncionario;
 import entidades.Funcionario;
 import java.util.ArrayList;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 /**
@@ -14,12 +15,14 @@ import javax.swing.table.AbstractTableModel;
  */
 public class TelaFuncionario extends javax.swing.JInternalFrame {
 ControlaFuncionario ff = new ControlaFuncionario();
+int codigo = 0;
     /**
      * Creates new form TelaFuncionario
      */
     public TelaFuncionario() {
         initComponents();
           montaTabela();
+          Formatacao.formatarCpf(txtFormatacaoCpf);
     }
 
     /**
@@ -35,13 +38,13 @@ ControlaFuncionario ff = new ControlaFuncionario();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblFuncionarios = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
         btnexcluir = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        btnEditarFunc = new javax.swing.JButton();
         CadClientes = new javax.swing.JPanel();
         lbl = new javax.swing.JLabel();
         txtnmfunc = new javax.swing.JTextField();
         lbl1 = new javax.swing.JLabel();
-        txtcpffunc = new javax.swing.JTextField();
         lbl2 = new javax.swing.JLabel();
         txtdtnascfunc = new javax.swing.JTextField();
         btnSalvar = new javax.swing.JButton();
@@ -51,6 +54,7 @@ ControlaFuncionario ff = new ControlaFuncionario();
         txtsalario = new javax.swing.JTextField();
         lbl5 = new javax.swing.JLabel();
         txtstatusfunc = new javax.swing.JTextField();
+        txtFormatacaoCpf = new javax.swing.JFormattedTextField();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -68,13 +72,6 @@ ControlaFuncionario ff = new ControlaFuncionario();
         ));
         jScrollPane1.setViewportView(tblFuncionarios);
 
-        jButton1.setText("Atualizar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         btnexcluir.setText("Excluir");
         btnexcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,30 +79,45 @@ ControlaFuncionario ff = new ControlaFuncionario();
             }
         });
 
+        jButton2.setText("Gerar PDF");
+
+        btnEditarFunc.setText("Editar");
+        btnEditarFunc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarFuncActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(btnexcluir))
-                .addContainerGap())
+                    .addComponent(jButton2)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnEditarFunc)
+                            .addComponent(btnexcluir, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnexcluir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(319, Short.MAX_VALUE)
+                .addComponent(btnexcluir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnEditarFunc)
+                .addGap(14, 14, 14))
         );
 
         tpconsulta.addTab("Consulta", jPanel1);
@@ -143,7 +155,6 @@ ControlaFuncionario ff = new ControlaFuncionario();
                     .addComponent(lbl)
                     .addComponent(txtnmfunc)
                     .addComponent(lbl1)
-                    .addComponent(txtcpffunc)
                     .addComponent(lbl2)
                     .addComponent(txtdtnascfunc, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
                     .addComponent(lbl3)
@@ -151,8 +162,9 @@ ControlaFuncionario ff = new ControlaFuncionario();
                     .addComponent(lbl4)
                     .addComponent(txtsalario)
                     .addComponent(lbl5)
-                    .addComponent(txtstatusfunc))
-                .addGap(48, 334, Short.MAX_VALUE))
+                    .addComponent(txtstatusfunc)
+                    .addComponent(txtFormatacaoCpf))
+                .addContainerGap(334, Short.MAX_VALUE))
         );
         CadClientesLayout.setVerticalGroup(
             CadClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,7 +176,7 @@ ControlaFuncionario ff = new ControlaFuncionario();
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtcpffunc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtFormatacaoCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -274,14 +286,10 @@ ControlaFuncionario ff = new ControlaFuncionario();
             });
         }
     }
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        montaTabela();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
         String nome = txtnmfunc.getText();
-        String cpf = txtcpffunc.getText();
+        String cpf = txtFormatacaoCpf.getText();
         String cargo = txtcargo.getText();
         String salario = txtsalario.getText();
         String datanasc = txtdtnascfunc.getText();
@@ -295,7 +303,17 @@ ControlaFuncionario ff = new ControlaFuncionario();
         f.setSalario(salario);
         f.setStatus(status);
 
-        boolean retorno = ff.salvar(f);
+      String Cpf = txtFormatacaoCpf.getText();
+        String cpfLimpo = Formatacao.removerFormatacao(cpf);
+
+        boolean retorno = false;
+
+        if (codigo == 0) {
+            retorno = ff.salvar(f);
+        } else {
+            f.setIdfunc(codigo);
+            retorno = ff.editar(f);
+        }
 
         if (retorno) {
             JOptionPane.showMessageDialog(null, "Salvo com sucesso");
@@ -325,6 +343,29 @@ String idString = String.valueOf(tblFuncionarios.getValueAt(tblFuncionarios.getS
             JOptionPane.showMessageDialog(null, "Ocorreu um erro ao excluir!");
         }        // TODO add your handling code here:
     }//GEN-LAST:event_btnexcluirActionPerformed
+
+    private void btnEditarFuncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarFuncActionPerformed
+ String idString = String.valueOf(tblFuncionarios.getValueAt (tblFuncionarios.getSelectedRow(), 6));
+        int idfunc = Integer.parseInt(idString);
+
+        Funcionario f = ff.recuperarUm(idfunc);
+        if (f != null) {
+            codigo = f.getIdfunc();
+
+            txtnmfunc.setText(f.getNomefunc());
+            txtFormatacaoCpf.setText(f.getCpf());
+            txtdtnascfunc.setText(f.getDatanasc());
+            txtcargo.setText(f.getCargo());
+            txtsalario.setText(f.getSalario());
+            txtstatusfunc.setText(f.getStatus());
+
+            tpconsulta.setSelectedIndex(1);
+        } else {
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao editar!");
+        }
+    
+                      // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarFuncActionPerformed
 
     /**
      * @param args the command line arguments
@@ -363,9 +404,10 @@ String idString = String.valueOf(tblFuncionarios.getValueAt(tblFuncionarios.getS
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CadClientes;
+    private javax.swing.JButton btnEditarFunc;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnexcluir;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl;
@@ -376,8 +418,8 @@ String idString = String.valueOf(tblFuncionarios.getValueAt(tblFuncionarios.getS
     private javax.swing.JLabel lbl5;
     private javax.swing.JTable tblFuncionarios;
     private javax.swing.JTabbedPane tpconsulta;
+    private javax.swing.JFormattedTextField txtFormatacaoCpf;
     private javax.swing.JTextField txtcargo;
-    private javax.swing.JTextField txtcpffunc;
     private javax.swing.JTextField txtdtnascfunc;
     private javax.swing.JTextField txtnmfunc;
     private javax.swing.JTextField txtsalario;

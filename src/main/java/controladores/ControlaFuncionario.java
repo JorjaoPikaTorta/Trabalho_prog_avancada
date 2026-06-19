@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package controladores;
+import entidades.Cliente;
 import entidades.DAO.FuncionarioDAO;
 import entidades.Funcionario;
 import java.sql.SQLException;
@@ -13,11 +14,11 @@ import java.util.ArrayList;
  */
 public class ControlaFuncionario {
     
- private FuncionarioDAO pDAO = new FuncionarioDAO();
+ private FuncionarioDAO fDAO = new FuncionarioDAO();
 
     public boolean salvar(Funcionario f) {
         try {
-            pDAO.salvar(f);
+            fDAO.salvar(f);
             return true;
         } catch (SQLException ex) {
             System.out.println("Erro ao salvar funcionario: " + ex.getMessage());
@@ -27,16 +28,35 @@ public class ControlaFuncionario {
 
     public ArrayList<Funcionario> recuperarTodos() {
         try {
-            return pDAO.recuperarTodos();
+            return fDAO.recuperarTodos();
         } catch (SQLException ex) {
             System.out.println("Erro ao salvar funcionario: " + ex.getMessage());
             return null;
         }
     }
+    
+     public Funcionario recuperarUm(int id){
+        try {
+            return fDAO.recuperarUm(id);
+        } catch (SQLException ex) {
+            System.out.println("Erro ao recuperar funcionario: " + ex.getMessage());
+            return null;
+        }
+    }
+     
+     public boolean editar(Funcionario f) {
+        try {
+            fDAO.editar(f);
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Erro ao editar funcionario: " + ex.getMessage());
+            return false;
+        }
+    }
       
     public boolean excluir(int id){
         try {
-            pDAO.excluir(id);
+            fDAO.excluir(id);
             return true;
         } catch (SQLException ex) {
             System.out.println("Erro ao excluir funcionario: " + ex.getMessage());

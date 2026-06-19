@@ -4,6 +4,7 @@
  */
 package controladores;
 
+import entidades.Cliente;
 import entidades.DAO.ProdutoraDAO;
 import entidades.Produtora;
 import java.sql.SQLException;
@@ -25,12 +26,31 @@ public class ControlaProdutora {
             return false;
         }
     }
+    
+     public boolean editar(Produtora p) {
+        try {
+            pDAO.editar(p);
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Erro ao editar produtora: " + ex.getMessage());
+            return false;
+        }
+    }
 
     public ArrayList<Produtora> recuperarTodos() {
         try {
             return pDAO.recuperarTodos();
         } catch (SQLException ex) {
             System.out.println("Erro ao salvar produtora: " + ex.getMessage());
+            return null;
+        }
+    }
+    
+     public Produtora recuperarUm(int id){
+        try {
+            return pDAO.recuperarUm(id);
+        } catch (SQLException ex) {
+            System.out.println("Erro ao recuperar produtora: " + ex.getMessage());
             return null;
         }
     }

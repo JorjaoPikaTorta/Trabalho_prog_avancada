@@ -41,10 +41,10 @@ public class ClienteDAO {
                 + "nome = '" + c.getNome() + "',"
                 + "cpf = '" + c.getCpf() + "',"
                 + "telefone = '" + c.getTelefone() + "',"
-                + "endereco = " + c.getEndereco() + "', "
+                + "endereco = '" + c.getEndereco() + "', "
                  + "datanasc = '" + c.getDatanasc() + "',"
-                 + "status = '" + c.getStatus() + " "
-                + "WHERE id = " + c.getIdcliente();
+                 + "status = '" + c.getStatus() + "' "
+                + "WHERE idcliente = " + c.getIdcliente();
 
         System.out.println("sql: " + sql);
 
@@ -78,7 +78,7 @@ public class ClienteDAO {
      public Cliente recuperarUm(int id) throws SQLException {
 
         String sql = ""
-                + "SELECT * FROM cliente WHERE id = " + id;
+                + "SELECT * FROM cliente WHERE idcliente = " + id;
 
         resultadoQ = ConexaoBD.executeQuery(sql);
 

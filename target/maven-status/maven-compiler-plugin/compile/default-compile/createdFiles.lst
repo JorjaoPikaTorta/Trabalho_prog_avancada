@@ -10,6 +10,7 @@ telas\TelaFuncionario$2.class
 entidades\DAO\UsuarioDAO.class
 apoio\Mensagem.class
 controladores\ControlaFuncionario.class
+entidades\Midia.class
 entidades\Produtora.class
 entidades\Funcionario.class
 telas\TelaClientes$1.class

@@ -267,9 +267,9 @@ int codigo = 0;
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         String idString = String.valueOf(tblClientes.getValueAt (tblClientes.getSelectedRow(), 6));
-        int id = Integer.parseInt(idString);
+        int idcliente = Integer.parseInt(idString);
 
-        Cliente c = cc.recuperarUm(id);
+        Cliente c = cc.recuperarUm(idcliente);
         if (c != null) {
             codigo = c.getIdcliente();
 

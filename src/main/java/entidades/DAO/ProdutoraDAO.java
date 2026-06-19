@@ -31,6 +31,22 @@ public class ProdutoraDAO {
 
         ConexaoBD.executeUpdate(sql);
     }
+    
+     public void editar(Produtora p) throws SQLException {
+        String sql = ""
+                + "UPDATE produtora SET "
+                + "razaosocial = '" + p.getRazaosocial() + "',"
+                + "nomefantasia = '" + p.getNomefantasia() + "',"
+                + "cnpj = '" + p.getCnpj() + "',"
+                + "telefone = '" + p.getTelefone() + "', "
+                 + "email = '" + p.getEmail() + "'"
+                 
+                + "WHERE idcliente = " + p.getIdprod();
+
+        System.out.println("sql: " + sql);
+
+        ConexaoBD.executeUpdate(sql);
+    }
 
     public ArrayList<Produtora> recuperarTodos() throws SQLException {
         ArrayList<Produtora> produtoras = new ArrayList();
@@ -52,9 +68,34 @@ public class ProdutoraDAO {
             
             produtoras.add(p);
         }
-
-        return produtoras;
+         return produtoras;
     }
+  
+   public Produtora recuperarUm(int id) throws SQLException {
+
+        String sql = ""
+                + "SELECT * FROM produtora WHERE idprod = " + id;
+
+        resultadoQ = ConexaoBD.executeQuery(sql);
+
+        if (resultadoQ.next()) {
+            Produtora p = new Produtora();
+
+            p.setIdprod(resultadoQ.getInt("idprod"));
+            p.setRazaosocial(resultadoQ.getString("razaosocial"));
+            p.setNomefantasia(resultadoQ.getString("nomefantasia"));
+            p.setCnpj(resultadoQ.getString("cnpj"));
+            p.setTelefone(resultadoQ.getString("telefone"));
+             p.setEmail(resultadoQ.getString("email"));
+             
+
+            return p;
+        }
+
+        return null;
+    }
+
+       
  public void excluir(int id) throws SQLException {
         String sql = ""
                 + "DELETE FROM produtora WHERE idprod = " + id;
@@ -64,5 +105,6 @@ public class ProdutoraDAO {
         ConexaoBD.executeUpdate(sql);
     }
 }
+
 
 
